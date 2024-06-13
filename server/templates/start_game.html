@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blackjack Game</title>
+</head>
+<body>
+    <h1>Blackjack Game</h1>
+    <div id="gameState">
+        <h3>Player's Hand:</h3>
+        <ul>
+            {% for card in player_hand.cards %}
+                <li>{{ card.rank.rank }} of {{ card.suit }}</li>
+            {% endfor %}
+        </ul>
+        Value: {{ player_hand.value }}<br> <!-- This line displays the value of the player's hand -->
+        <h3>Dealer's Hand:</h3>
+        <ul>
+            {% for card in dealer_hand.cards %}
+                {% if loop.first %}
+                    <li>Hidden</li>
+                {% else %}
+                    <li>{{ card.rank.rank }} of {{ card.suit }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        Winner: {{ winner or '' }}
+    </div>
+    <form action="/hit" method="post">
+        <button type="submit">Hit</button>
+    </form>
+    <form action="/stand" method="post">
+        <button type="submit">Stand</button>
+    </form>
+</body>
+</html>
