@@ -12,7 +12,7 @@
                 <li>{{ card.rank.rank }} of {{ card.suit }}</li>
             {% endfor %}
         </ul>
-        Value: {{ player_hand.value }}<br>
+        Value: {{ player_hand.get_value() }}<br>
     <h3>Dealer's Hand:</h3>
         <ul>
             {% for card in dealer_hand.cards %}
@@ -21,5 +21,6 @@
         </ul>
         Value: {{ dealer_hand.value }}<br>
     <a href="{{ url_for('start_game') }}">Start a new game</a>
+    <a href="/">Return to the main menu</a>
 </body>
 </html>

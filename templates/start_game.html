@@ -12,7 +12,7 @@
                 <li>{{ card.rank.rank }} of {{ card.suit }}</li>
             {% endfor %}
         </ul>
-        Value: {{ player_hand.value }}<br> <!-- This line displays the value of the player's hand -->
+        Value: {{ player_hand.get_value() }}<br> <!-- This line displays the value of the player's hand -->
         <h3>Dealer's Hand:</h3>
         <ul>
             {% for card in dealer_hand.cards %}
