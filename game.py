@@ -201,6 +201,8 @@ class Game:
         if game_over:  # If the player has chosen to stand
             if dealer_hand.get_value() > 21:
                 return 'Player'
+            elif player_hand.get_value() > 21:
+                return 'Dealer'
             elif player_hand.get_value() > dealer_hand.get_value():
                 return 'Player'
             elif player_hand.get_value() < dealer_hand.get_value():

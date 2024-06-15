@@ -13,6 +13,8 @@
             {% endfor %}
         </ul>
         Value: {{ player_hand.get_value() }}<br> <!-- This line displays the value of the player's hand -->
+        Bet: {{game_session.bet}}<br>
+        Balance: {{user.balance}}<br>
         <h3>Dealer's Hand:</h3>
         <ul>
             {% for card in dealer_hand.cards %}
@@ -31,5 +33,10 @@
     <form action="/stand" method="post">
         <button type="submit">Stand</button>
     </form>
+    {% if double_down %}
+        <form action="/double_down" method="post">
+            <button type="submit">Double Down</button>
+        </form>
+    {% endif %}
 </body>
 </html>

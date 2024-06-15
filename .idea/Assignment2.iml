@@ -3,6 +3,32 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv/bin/python " />
+      <excludeFolder url="file://$MODULE_DIR$/venv/include" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/Flask_Migrate-4.0.7.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/Flask_SocketIO-5.3.6.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/Mako-1.3.5.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/SQLAlchemy-2.0.30.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/alembic" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/alembic-1.13.1.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/bidict" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/bidict-0.23.1.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/engineio" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/flask_migrate" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/flask_socketio" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/flask_sqlalchemy" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/flask_sqlalchemy-3.1.1.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/h11" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/h11-0.14.0.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/mako" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/python_engineio-4.9.1.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/python_socketio-5.11.2.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/simple_websocket" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/simple_websocket-1.0.0.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/socketio" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/sqlalchemy" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/typing_extensions-4.12.2.dist-info" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/wsproto" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib/python3.11/site-packages/wsproto-1.2.0.dist-info" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.11 (Assignment2) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

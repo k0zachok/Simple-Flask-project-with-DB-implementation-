@@ -6,10 +6,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'  # replace with
 db.init_app(app)
 
 
-with app.app_context():
-    # Delete all game sessions
-    GameSession.query.delete()
-    db.session.commit()
+# with app.app_context():
+#     # Delete all game sessions
+#     GameSession.query.delete()
+#     db.session.commit()
 
 
 #session id still exists somehow even though i deleted all the sessions.
@@ -21,7 +21,11 @@ with app.app_context():
     # Query all users
     users = User.query.all()
     for user in users:
-        print(f'User ID: {user.id}, Username: {user.username}')
+        if user == '':
+            print('no users')
+        else:
+            user.balance = 1000
+            print(f'User ID: {user.id}, Username: {user.username}, Balance: {user.balance}')
 
     # Query all game sessions
     game_sessions = GameSession.query.all()
