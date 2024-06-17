@@ -197,14 +197,14 @@ class Game:
     #             return "Dealer"
     #     return None
 
-    def check_winner(self, player_hand, dealer_hand, game_over):
+    def check_winner(self, player_hand, dealer_hand, game_over, player_username):
         if game_over:  # If the player has chosen to stand
             if dealer_hand.get_value() > 21:
-                return 'Player'
+                return player_username
             elif player_hand.get_value() > 21:
                 return 'Dealer'
             elif player_hand.get_value() > dealer_hand.get_value():
-                return 'Player'
+                return player_username
             elif player_hand.get_value() < dealer_hand.get_value():
                 return 'Dealer'
             else:
@@ -213,9 +213,9 @@ class Game:
             if player_hand.get_value() > 21:
                 return 'Dealer'
             elif player_hand.get_value() == 21:
-                return 'Player'
+                return player_username
             else:
                 return None
 
-g = Game()
-g.play()
+# g = Game()
+# g.play()

@@ -4,9 +4,10 @@
     <title>Main Page</title>
 </head>
 <body>
-    <h1>Welcome to the Game!</h1>
+    <h1>Welcome to the Game, {{ user.username }}!</h1>
     {% if logged_in %}
         <a href="/place_bet">Start a New Game</a>
+        <a href="/friends">Friends</a>
         <a href="/logout">Logout</a>
     {% else %}
         <a href="/register">Register</a>

@@ -22,8 +22,9 @@ def create_tables():
 @app.route('/')
 def home():
     user_id = session.get('user_id')
+    user = User.query.get(user_id)
     logged_in = user_id is not None
-    return render_template('main.html', logged_in=logged_in)
+    return render_template('main.html', logged_in=logged_in, user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -65,43 +66,75 @@ def logout():
     return redirect(url_for('home'))
 
 
-# @app.route('/start_game', methods=['GET'])
-# def start_game():
-#     user_id = session.get('user_id')
-#     if not user_id:
-#         return "Not logged in", 401
-#
-#     user = User.query.get(user_id)
-#     if not user:
-#         return "User not found", 404
-#
-#     game_session_id = session.get('game_session_id')
-#     game_session = None
-#     if game_session_id:
-#         game_session = GameSession.query.get(game_session_id)
-#
-#     if not game_session:
-#         # Game session does not exist, start a new game
-#         deck = Deck()
-#         deck.shuffle()
-#
-#         player_hand = Hand()
-#         dealer_hand = Hand(dealer=True)
-#
-#         for i in range(2):
-#             player_hand.add_card(deck.deal(1))
-#             dealer_hand.add_card(deck.deal(1))
-#
-#         game_session = GameSession(user=user, deck=pickle.dumps(deck), player_hand=pickle.dumps(player_hand), dealer_hand=pickle.dumps(dealer_hand))
-#         db.session.add(game_session)
-#         db.session.commit()
-#
-#         session['game_session_id'] = game_session.id
-#
-#     player_hand = pickle.loads(game_session.player_hand)
-#     dealer_hand = pickle.loads(game_session.dealer_hand)
-#
-#     return render_template('start_game.html', player_hand=pickle.loads(game_session.player_hand), dealer_hand=pickle.loads(game_session.dealer_hand))
+@app.route('/friends', methods=['GET'])
+def friends():
+    return render_template('friends.html')
+
+@app.route('/send_friend_request/<friend_username>', methods=['POST'])
+def send_friend_request(friend_username):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    friend = User.query.filter_by(username=friend_username).first()
+    if not friend:
+        return jsonify({'message': 'User not found'}), 404
+    user.send_friend_request(friend)
+    return jsonify({'message': 'Friend request sent'})
+
+
+@app.route('/accept_friend_request/<friend_username>', methods=['POST'])
+def accept_friend_request(friend_username):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    friend = User.query.filter_by(username=friend_username).first()
+    if not friend:
+        return jsonify({'message': 'User not found'}), 404
+    user.accept_friend_request(friend)
+    return jsonify({'message': 'Friend request accepted'})
+
+@app.route('/reject_friend_request/<friend_username>', methods=['POST'])
+def reject_friend_request(friend_username):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    friend = User.query.filter_by(username=friend_username).first()
+    if not friend:
+        return jsonify({'message': 'User not found'}), 404
+    user.reject_friend_request(friend)
+    return jsonify({'message': 'Friend request rejected'})
+
+@app.route('/remove_friend/<friend>', methods=['POST'])
+def remove_friend(friend):
+    user_id = session.get('user_id')
+    if not user_id:
+        return 'User is not logged in'
+    user = User.query.get(user_id)
+    friend_user = User.query.filter_by(username=friend).first()
+    if friend_user:
+        user.remove_friend(friend_user)
+        return jsonify({'message': 'Friend removed'}), 200
+    else:
+        return jsonify({'message': 'Friend not found'}), 404
+
+@app.route('/get_friends', methods=['GET'])
+def get_friends():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    friends = [friend.username for friend in user.get_friends()]
+    return jsonify({'friends': friends})
+
+@app.route('/get_sent_requests', methods=['GET'])
+def get_sent_requests():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    sent_requests = [request.username for request in user.get_sent_requests()]
+    return jsonify({'sent_requests': sent_requests})
+
+@app.route('/get_received_requests', methods=['GET'])
+def get_received_requests():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    received_requests = [request.username for request in user.get_received_requests()]
+    return jsonify({'received_requests': received_requests})
+
 
 @app.route('/place_bet', methods=['GET'])
 def place_bet():
@@ -216,8 +249,9 @@ def hit():
     game_session.deck = pickle.dumps(deck)
     game_session.double_down = None
     db.session.commit()
-
-    winner = game.check_winner(player_hand, pickle.loads(game_session.dealer_hand), False)
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    winner = game.check_winner(player_hand, pickle.loads(game_session.dealer_hand), False, user.username)
     if winner:
         game_session.winner = winner
         return redirect(url_for('game_over'))
@@ -244,8 +278,9 @@ def stand():
     game_session.deck = pickle.dumps(deck)
 
     db.session.commit()
-
-    winner = game.check_winner(pickle.loads(game_session.player_hand), dealer_hand, True)
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    winner = game.check_winner(pickle.loads(game_session.player_hand), dealer_hand, True, user.username)
     if winner:
         game_session.winner = winner
         return redirect(url_for('game_over'))
@@ -276,15 +311,14 @@ def double_down():
     game_session.deck = pickle.dumps(deck)
 
     db.session.commit()
-
-    winner = game.check_winner(player_hand, pickle.loads(game_session.dealer_hand), True)
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    winner = game.check_winner(player_hand, pickle.loads(game_session.dealer_hand), True, user.username)
     if winner:
         game_session.winner = winner
         return redirect(url_for('game_over'))
 
     return redirect(url_for('start_game'))
-
-# @app.route('/splitting_pairs', methods=['POST'])
 
 
 
@@ -305,13 +339,16 @@ def game_over():
             return 'game sess not created'
     bet = game_session.bet
     print(f' in game over bet {bet}')
-    winner = game.check_winner(pickle.loads(game_session.player_hand), pickle.loads(game_session.dealer_hand), True)
-    if winner == 'Player':
+    winner = game.check_winner(pickle.loads(game_session.player_hand), pickle.loads(game_session.dealer_hand), True, user.username)
+    if winner == user.username:
         user.balance += bet
-    else:
+    if winner == 'Dealer':
         user.balance -= bet
+    else:
+        user.balance = user.balance
     if game_session:
         db.session.delete(game_session)
         db.session.commit()
 
     return render_template('game_over.html', player_hand=pickle.loads(game_session.player_hand), dealer_hand=pickle.loads(game_session.dealer_hand), winner=winner)
+
