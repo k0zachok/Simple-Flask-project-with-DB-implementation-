@@ -4,14 +4,22 @@
     <title>Main Page</title>
 </head>
 <body>
-    <h1>Welcome to the Game, {{ user.username }}!</h1>
     {% if logged_in %}
+        <h1>Welcome to the Game, {{ user.username }}!</h1>
+        <div>
+            <p>Balance: {{ user.balance }}</p>
+            <p>Points: {{ user.points }}</p>
+            <p>Rank: {{ user.rank }}</p>
+        </div>
         <a href="/place_bet">Start a New Game</a>
         <a href="/friends">Friends</a>
+        <a href="/leaderboard">Leaderboard</a>
         <a href="/logout">Logout</a>
     {% else %}
+        <h1>Welcome to the Game of BlackJack!</h1>
         <a href="/register">Register</a>
         <a href="/login">Login</a>
     {% endif %}
+    <script src="/static/main.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ import pickle
 from flask_migrate import Migrate
 import logging
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db.init_app(app)
@@ -65,6 +66,50 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
+@app.route('/leaderboard_data')
+def leaderboard_data():
+    users = User.query.order_by(User.points.desc()).all()
+    leaderboard_data = [
+        {
+            'username': user.username,
+            'points': user.points,
+            'rank': user.rank
+        }
+        for user in users
+    ]
+    return jsonify(leaderboard_data)
+
+@app.route('/leaderboard')
+def leaderboard():
+    return render_template('leaderboard.html')
+
+
+@app.route('/friends_leaderboard_data')
+def friends_leaderboard_data():
+    user_id = session.get('user_id')
+    if not user_id:
+        return "Not logged in", 401
+
+    user = User.query.get(user_id)
+    if not user:
+        return "User not found", 404
+
+    friends = user.get_friends()
+    friend_ids = [friend.id for friend in friends]
+    friends_and_user = [user.id] + friend_ids
+
+    users = User.query.filter(User.id.in_(friends_and_user)).order_by(User.points.desc()).all()
+
+    leaderboard_data = [
+        {
+            'username': user.username,
+            'points': user.points,
+            'rank': user.rank
+        }
+        for user in users
+    ]
+
+    return jsonify(leaderboard_data)
 
 @app.route('/friends', methods=['GET'])
 def friends():
@@ -342,8 +387,44 @@ def game_over():
     winner = game.check_winner(pickle.loads(game_session.player_hand), pickle.loads(game_session.dealer_hand), True, user.username)
     if winner == user.username:
         user.balance += bet
+        user.points += 15
+        if user.points < 30:
+            user.rank = 'Newbie'
+        elif user.points >= 30 and user.points < 70:
+            user.rank = 'Apprentice'
+        elif user.points >= 70 and user.points < 120:
+            user.rank = 'Rookie'
+        elif user.points >= 120 and user.points < 200:
+            user.rank = 'Amateur'
+        elif user.points >= 200 and user.points < 300:
+            user.rank = 'Expert'
+        elif user.points >= 300 and user.points < 500:
+            user.rank = 'Card Shark'
+        elif user.points >= 500 and user.points < 700:
+            user.rank = 'High Roller'
+        elif user.points >= 700:
+            user.rank = 'Blackjack Master'
+
     if winner == 'Dealer':
         user.balance -= bet
+        if user.points >= 10:
+            user.points -= 10
+            if user.points < 30:
+                user.rank = 'Newbie'
+            elif user.points >= 30 and user.points < 70:
+                user.rank = 'Apprentice'
+            elif user.points >= 70 and user.points < 120:
+                user.rank = 'Rookie'
+            elif user.points >= 120 and user.points < 200:
+                user.rank = 'Amateur'
+            elif user.points >= 200 and user.points < 300:
+                user.rank = 'Expert'
+            elif user.points >= 300 and user.points < 500:
+                user.rank = 'Card Shark'
+            elif user.points >= 500 and user.points < 700:
+                user.rank = 'High Roller'
+            elif user.points >= 700:
+                user.rank = 'Blackjack Master'
     else:
         user.balance = user.balance
     if game_session:

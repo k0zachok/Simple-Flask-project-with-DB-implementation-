@@ -11,6 +11,8 @@ class User(db.Model):
     friends = db.relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user", lazy='dynamic')
     sent_requests = db.relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user",lazy='dynamic')
     received_requests = db.relationship("Friendship", foreign_keys='Friendship.friend_id', back_populates="friend",lazy='dynamic')
+    points = db.Column(db.Integer, default=0)
+    rank = db.Column(db.String(30), default='Newbie')
 
     def send_friend_request(self, user):
         if user not in self.get_friends():
