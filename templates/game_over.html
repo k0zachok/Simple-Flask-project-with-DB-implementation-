@@ -2,25 +2,37 @@
 <html>
 <head>
     <title>Game Over</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
-    <h1>Game Over</h1>
-    <p>The winner is: {{ winner }}</p>
-    <h3>Player's Hand:</h3>
-        <ul>
-            {% for card in player_hand.cards %}
-                <li>{{ card.rank.rank }} of {{ card.suit }}</li>
-            {% endfor %}
-        </ul>
-        Value: {{ player_hand.get_value() }}<br>
-    <h3>Dealer's Hand:</h3>
-        <ul>
-            {% for card in dealer_hand.cards %}
-                <li>{{ card.rank.rank }} of {{ card.suit }}</li>
-            {% endfor %}
-        </ul>
-        Value: {{ dealer_hand.get_value() }}<br>
-    <a href="/place_bet">Start a new game</a>
-    <a href="/">Return to the main menu</a>
+    <div class="game-over-container">
+        <h1>Game Over</h1>
+        <p class="winner">The winner is: <strong>{{ winner }}</strong></p>
+
+        <div class="hand-container">
+            <h3>Player's Hand:</h3>
+            <ul>
+                {% for card in player_hand.cards %}
+                    <li>{{ card.rank.rank }} of {{ card.suit }}</li>
+                {% endfor %}
+            </ul>
+            <p>Value: <strong>{{ player_hand.get_value() }}</strong></p>
+        </div>
+
+        <div class="hand-container">
+            <h3>Dealer's Hand:</h3>
+            <ul>
+                {% for card in dealer_hand.cards %}
+                    <li>{{ card.rank.rank }} of {{ card.suit }}</li>
+                {% endfor %}
+            </ul>
+            <p>Value: <strong>{{ dealer_hand.get_value() }}</strong></p>
+        </div>
+
+        <div class="options">
+            <button onclick="location.href='/place_bet'">Start a New Game</button>
+            <button onclick="location.href='/'">Return to the Main Menu</button>
+        </div>
+    </div>
 </body>
 </html>

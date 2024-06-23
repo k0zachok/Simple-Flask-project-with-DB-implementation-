@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Friends</title>
+    <title>Friends Management</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/main.js"></script>
 </head>
 <body>
-    <h1>Friends</h1>
-    <button id="show-friends">Friends List</button>
-    <button id="show-sent-requests">Sent Requests</button>
-    <button id="show-received-requests">Received Requests</button>
-    <button id="add-friend">Add Friend</button>
-
-    <div id="friends-list"></div>
-    <div id="sent-requests-list"></div>
-    <div id="received-requests-list"></div>
-
-    <div id="add-friend-form" style="display: none;">
-        <input type="text" id="friend-username" placeholder="Enter friend's username">
-        <button id="send-request">Send Request</button>
+    <h1>Friends Management</h1>
+    <div>
+        <button id="show-friends">Show Friends</button>
+        <ul id="friends-list"></ul>
     </div>
-
+    <div>
+        <button id="show-sent-requests">Show Sent Requests</button>
+        <ul id="sent-requests-list"></ul>
+    </div>
+    <div>
+        <button id="show-received-requests">Show Received Requests</button>
+        <ul id="received-requests-list"></ul>
+    </div>
+    <div>
+        <button id="add-friend">Add Friend</button>
+        <form id="add-friend-form" style="display:none;">
+            <input type="text" id="friend-username" placeholder="Enter friend's username">
+            <button type="button" id="send-request">Send Request</button>
+        </form>
+    </div>
     <a href="/">Return to Main Page</a>
-
-    <script src="/static/main.js"></script>
 </body>
 </html>
-

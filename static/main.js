@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (receivedRequestsList) receivedRequestsList.innerHTML = '';
     }
 
-    // Function to fetch and display the default (all users) leaderboard
     function showDefaultLeaderboard() {
         fetch('/leaderboard_data')
             .then(response => response.json())
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .catch(error => console.error('Error fetching leaderboard data:', error));
     }
 
-    // Function to fetch and display the friends-only leaderboard
     function showFriendsLeaderboard() {
         fetch('/friends_leaderboard_data')
             .then(response => response.json())
@@ -48,16 +46,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .catch(error => console.error('Error fetching friends leaderboard data:', error));
     }
 
-    // Initial load: show the default leaderboard
     showDefaultLeaderboard();
 
-    // Event listener for showing default leaderboard
     const showAllLeaderboardButton = document.getElementById('default-leaderboard-button');
     if (showAllLeaderboardButton) {
         showAllLeaderboardButton.addEventListener('click', showDefaultLeaderboard);
     }
 
-    // Event listener for showing friends leaderboard
     const showFriendsLeaderboardButton = document.getElementById('friends-leaderboard-button');
     if (showFriendsLeaderboardButton) {
         showFriendsLeaderboardButton.addEventListener('click', showFriendsLeaderboard);

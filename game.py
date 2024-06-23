@@ -112,8 +112,6 @@ class Hand:
 
 
 class Game:
-    # ... (rest of your code)
-
     def play(self):
         game_number = 0
         game_data = {}
@@ -171,34 +169,9 @@ class Game:
 
         return game_data
 
-    # def check_winner(self, player_hand, dealer_hand, game_over=False):
-    #     if not game_over:
-    #         if player_hand.get_value() > 21:
-    #             return "Dealer"
-    #         elif dealer_hand.get_value() > 21:
-    #             return "Player"
-    #         elif dealer_hand.is_blackjack() and player_hand.is_blackjack():
-    #             return "Tie"
-    #         elif player_hand.is_blackjack():
-    #             return "Player"
-    #         elif dealer_hand.is_blackjack():
-    #             return "Dealer"
-    #         elif player_hand.get_value() > dealer_hand.get_value():
-    #             return "Player"
-    #         elif player_hand.get_value() < dealer_hand.get_value():
-    #             return "Dealer"
-    #     else:
-    #         #add cases of blackjack
-    #         if player_hand.get_value() > dealer_hand.get_value():
-    #             return "Player"
-    #         elif player_hand.get_value() == dealer_hand.get_value():
-    #             return "Tie"
-    #         else:
-    #             return "Dealer"
-    #     return None
 
     def check_winner(self, player_hand, dealer_hand, game_over, player_username):
-        if game_over:  # If the player has chosen to stand
+        if game_over:
             if dealer_hand.get_value() > 21:
                 return player_username
             elif player_hand.get_value() > 21:
@@ -209,7 +182,7 @@ class Game:
                 return 'Dealer'
             else:
                 return 'Draw'
-        else:  # If the player has chosen to hit
+        else:
             if player_hand.get_value() > 21:
                 return 'Dealer'
             elif player_hand.get_value() == 21:

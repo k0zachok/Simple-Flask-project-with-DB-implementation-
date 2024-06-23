@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="form-container">
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <a href="/register">Don't have an account? Register here</a>
+    </div>
 </body>
 </html>

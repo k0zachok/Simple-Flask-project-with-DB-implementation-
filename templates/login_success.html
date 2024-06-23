@@ -2,10 +2,13 @@
 <html>
 <head>
     <title>Login Successful</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
-    <h1>Login Successful</h1>
-    <p>You have successfully logged in. You can now start a new game.</p>
-    <a href="/">Return to Main Page</a>
+    <div class="message-container">
+        <h1>Login Successful!</h1>
+        <p>Welcome back, {{user.username}}!</p>
+        <button onclick="location.href='/'">Go to Main Page</button>
+    </div>
 </body>
 </html>

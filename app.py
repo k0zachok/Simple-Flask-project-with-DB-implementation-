@@ -42,7 +42,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        return render_template('register_success.html')
+        return render_template('register_success.html', user=user)
     else:
         return render_template('register.html')
 
@@ -57,7 +57,7 @@ def login():
             return "Invalid username or password", 401
 
         session['user_id'] = user.id
-        return render_template('login_success.html')
+        return render_template('login_success.html', user=user)
     else:
         return render_template('login.html')
 
@@ -217,11 +217,8 @@ def start_game():
     if not user:
         return "User not found", 404
 
-
-    # Check if there's an active game session for the current user
     game_session = GameSession.query.filter_by(user_id=user_id, active=True).first()
     if not game_session:
-        # If there's no active game session, start a new game
         bet = session.get('bet')
         if not bet:
             return "No bet placed", 400
@@ -253,7 +250,6 @@ def start_game():
             return "User not found", 404
 
     else:
-        # If there's an active game session, load the game state
         bet = session.get('bet')
         print(f'in start game {bet}')
         game_session.bet = bet
@@ -349,16 +345,21 @@ def double_down():
 
     player_hand = pickle.loads(game_session.player_hand)
     deck = pickle.loads(game_session.deck)
+    dealer_hand =  pickle.loads(game_session.dealer_hand)
 
     player_hand.add_card(deck.deal(1))
 
+    while dealer_hand.get_value() < 17:
+        dealer_hand.add_card(deck.deal(1))
+
+    game_session.dealer_hand = pickle.dumps(dealer_hand)
     game_session.player_hand = pickle.dumps(player_hand)
     game_session.deck = pickle.dumps(deck)
 
     db.session.commit()
     user_id = session.get('user_id')
     user = User.query.get(user_id)
-    winner = game.check_winner(player_hand, pickle.loads(game_session.dealer_hand), True, user.username)
+    winner = game.check_winner(player_hand, dealer_hand, True, user.username)
     if winner:
         game_session.winner = winner
         return redirect(url_for('game_over'))

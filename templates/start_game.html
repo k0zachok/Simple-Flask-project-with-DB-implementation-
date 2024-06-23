@@ -2,41 +2,59 @@
 <html>
 <head>
     <title>Blackjack Game</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
-<body>
-    <h1>Blackjack Game</h1>
-    <div id="gameState">
-        <h3>Player's Hand:</h3>
-        <ul>
-            {% for card in player_hand.cards %}
-                <li>{{ card.rank.rank }} of {{ card.suit }}</li>
-            {% endfor %}
-        </ul>
-        Value: {{ player_hand.get_value() }}<br> <!-- This line displays the value of the player's hand -->
-        Bet: {{game_session.bet}}<br>
-        Balance: {{user.balance}}<br>
-        <h3>Dealer's Hand:</h3>
-        <ul>
-            {% for card in dealer_hand.cards %}
-                {% if loop.first %}
-                    <li>Hidden</li>
-                {% else %}
-                    <li>{{ card.rank.rank }} of {{ card.suit }}</li>
+<body class="start-game-background">
+    <div class="game-container">
+        <h1>Blackjack Game</h1>
+        <div id="gameState">
+            <h2>Player's Hand</h2>
+            <div class="cards">
+                <ul>
+                    {% for card in player_hand.cards %}
+                        <li class="card">
+                            <img src="/static/cards/{{ card.rank.rank }}_of_{{ card.suit }}.png" alt="{{ card.rank.rank }} of {{ card.suit }}">
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="hand-value">Value: <strong>{{ player_hand.get_value() }}</strong></p>
+            </div>
+
+            <h2>Dealer's Hand</h2>
+            <div class="cards">
+                <ul>
+                    {% set visible_value = 0 %}
+                    {% for card in dealer_hand.cards %}
+                        {% if loop.first %}
+                            <li class="card back">
+                                <img src="/static/cards/back.png" alt="Hidden">
+                            </li>
+                        {% else %}
+                            <li class="card">
+                                <img src="/static/cards/{{ card.rank.rank }}_of_{{ card.suit }}.png" alt="{{ card.rank.rank }} of {{ card.suit }}">
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <p class="bet">Bet: <strong>{{ game_session.bet }}</strong></p>
+            <p class="balance">Balance: <strong>{{ user.balance }}</strong></p>
+
+            <div class="actions">
+                <form action="/hit" method="post">
+                    <button type="submit" class="action-button">Hit</button>
+                </form>
+                <form action="/stand" method="post">
+                    <button type="submit" class="action-button">Stand</button>
+                </form>
+                {% if double_down %}
+                    <form action="/double_down" method="post">
+                        <button type="submit" class="action-button">Double Down</button>
+                    </form>
                 {% endif %}
-            {% endfor %}
-        </ul>
-        Winner: {{ winner or '' }}
+            </div>
+        </div>
     </div>
-    <form action="/hit" method="post">
-        <button type="submit">Hit</button>
-    </form>
-    <form action="/stand" method="post">
-        <button type="submit">Stand</button>
-    </form>
-    {% if double_down %}
-        <form action="/double_down" method="post">
-            <button type="submit">Double Down</button>
-        </form>
-    {% endif %}
 </body>
 </html>

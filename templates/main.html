@@ -2,24 +2,29 @@
 <html>
 <head>
     <title>Main Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
+    <h1>Welcome to Blackjack Game</h1>
     {% if logged_in %}
-        <h1>Welcome to the Game, {{ user.username }}!</h1>
-        <div>
+            <h2>User Info</h2>
+        <div class="user-info-container">
+            <p>Username: {{ user.username }}</p>
             <p>Balance: {{ user.balance }}</p>
             <p>Points: {{ user.points }}</p>
             <p>Rank: {{ user.rank }}</p>
         </div>
-        <a href="/place_bet">Start a New Game</a>
-        <a href="/friends">Friends</a>
-        <a href="/leaderboard">Leaderboard</a>
-        <a href="/logout">Logout</a>
+        <div>
+            <button onclick="location.href='/place_bet'">Start Game</button>
+            <button onclick="location.href='/friends'">Manage Friends</button>
+            <button onclick="location.href='/leaderboard'">View Leaderboard</button>
+            <button onclick="location.href='/logout'">Logout</button>
+        </div>
     {% else %}
-        <h1>Welcome to the Game of BlackJack!</h1>
-        <a href="/register">Register</a>
-        <a href="/login">Login</a>
+        <div>
+            <button onclick="location.href='/login'">Login</button>
+            <button onclick="location.href='/register'">Register</button>
+        </div>
     {% endif %}
-    <script src="/static/main.js"></script>
 </body>
 </html>

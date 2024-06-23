@@ -1,0 +1,92 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #006400;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+}
+
+h1, h2 {
+    color: #fff;
+}
+
+.user-info-container {
+    background: rgba(34, 139, 34, 0.8); /* Forest green background with opacity */
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: fit-content;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.user-info-container p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.game-container {
+    background: #2f4f4f;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.start-game-background {
+    background-image: url('/static/background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.cards {
+    background: #228b22;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    display: inline-block;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.card img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.card.back img {
+    opacity: 0.8;
+}
+
+.hand-value, .bet, .balance {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.action-button:hover {
+    background-color: #ff6347;
+}

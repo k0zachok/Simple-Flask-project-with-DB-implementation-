@@ -2,10 +2,13 @@
 <html>
 <head>
     <title>Registration Successful</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
-    <h1>Registration Successful</h1>
-    <p>You have successfully registered. You can now log in.</p>
-    <a href="/">Return to Main Page</a>
+    <div class="message-container">
+        <h1>Registration Successful!</h1>
+        <p>Welcome, {{ username }}! Your account has been created.</p>
+        <button onclick="location.href='/login'">Login</button>
+    </div>
 </body>
 </html>

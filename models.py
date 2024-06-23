@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(20), nullable=False)
     balance = db.Column(db.Integer, default=1000)
     friends = db.relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user", lazy='dynamic')
-    sent_requests = db.relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user",lazy='dynamic')
+    sent_requests = db.relationship("Friendship", foreign_keys='Friendship.user_id', back_populates="user", lazy='dynamic')
     received_requests = db.relationship("Friendship", foreign_keys='Friendship.friend_id', back_populates="friend",lazy='dynamic')
     points = db.Column(db.Integer, default=0)
     rank = db.Column(db.String(30), default='Newbie')
@@ -26,7 +26,6 @@ class User(db.Model):
             friendship.status = 'accepted'
             db.session.commit()
 
-            # Create a new friendship in the opposite direction
             reverse_friendship = Friendship(user_id=self.id, friend_id=user.id, status='accepted')
             db.session.add(reverse_friendship)
             db.session.commit()
